@@ -2,12 +2,13 @@
 <html lang="en" data-framework="javascript">
 	<head>
 		<meta charset="utf-8">
-		<title>VanillaJS • TodoMVC</title>
+		<title>AlpineJS • TodoMVC</title>
 		<link rel="stylesheet" href="css/base.css">
 		<link rel="stylesheet" href="css/index.css">
 	</head>
 	<body>
-		<section class="todoapp" x-data="{}">
+		<section class="todoapp" x-data="{tasks: JSON.parse(localStorage.tasks)
+		}">
 			<header class="header">
 				<h1>todos</span></h1>
 				<input class="new-todo" placeholder="What needs to be done?" autofocus>
@@ -16,6 +17,20 @@
 				<input id="toggle-all" class="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
 				<ul class="todo-list">
+					<template x-for="task in tasks">
+					<li x-bind:class="task.completed ? 'completed' : ''">
+						<div class="view">
+						  <input 
+						  class="toggle" 
+						  type="checkbox" 
+						  x-model="task.completed" 
+						  />
+
+						  <label x-text="task.content"></label>
+						  <button class="destroy"></button>
+						</div>
+					</li>
+				</template>
                 </ul>
 			</section>
 			<footer class="footer">
@@ -40,6 +55,18 @@
 			<p>Refactored by <a href="https://github.com/cburgmer">Christoph Burgmer</a></p>
 			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 		</footer>
+		<script>
+			//Je remplis artificiellement le localStorage.tasks
+				// localStorage.tasks = JSON.stringify([
+				// 	{id: 1, content: "Tâche 1", completed: true},
+				// 	{id: 2, content: "Tâche 2", completed: false}
+				// ]);
+			// 1. Initialiser le localstorage
+			if (localStorage.tasks === undefined) {
+    			localStorage.tasks = JSON.stringify([]);
+			}
+		</script>
 		<script src="https://unpkg.com/alpinejs" defer></script>
+
 	</body>
 </html>
